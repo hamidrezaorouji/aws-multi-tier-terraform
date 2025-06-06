@@ -8,9 +8,14 @@ This project sets up a multi-tier AWS infrastructure using Terraform, following 
 - bin/
 
 ## Network structure
-This terraform project has a VPC with:
+it creates a VPC with:
 - Public subnets with internet access
 - private subnets with NAT-gateway
+
+## Security groups
+thie module creates two security groups:
+- **alb_sg** 
+- **ec2_sg**
 
 ## Usage
 ```bash

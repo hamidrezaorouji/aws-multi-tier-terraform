@@ -6,3 +6,9 @@ module "network" {
   private_subnet_cidrs = ["10.0.101.0/24", "10.0.102.0/24"]
   azs                  = []
 }
+
+module "security_groups" {
+  source = "../../modules/security_groups"
+  name   = "dev"
+  vpc_id = module.network.vpc_id
+}
