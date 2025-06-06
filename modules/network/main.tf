@@ -21,7 +21,7 @@ resource "aws_subnet" "public" {
   availability_zone       = element(var.azs, count.index)
   map_public_ip_on_launch = true
   tags = {
-    Name = "${var.name}-public-${ocunt.index}"
+    Name = "${var.name}-public-subnet-${count.index}"
   }
 }
 
@@ -42,3 +42,43 @@ resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.public.id
 }
 
+resource "aws_eip" "nat" {
+  vpc = true
+}
+
+resource "aws_nat_gateway" "ng" {
+  allocation_id = aws_eip.nat.id
+  subnet_id     = aws_subnet.public[0].id
+  tags = {
+    Name = "${var.name}-nat-gateway"
+  }
+}
+
+resource "aws_subnet" "private" {
+  count             = length(var.private_subnet_ciders)
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.private_subnet_cidr[count.index]
+  availability_zone = element(var.azs, count.index)
+  tags = {
+    Name = "${var.name}-private-subnet-${count.index}"
+  }
+}
+
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.main.id
+  tags = {
+    Name = "${var.name}-private-rt"
+  }
+}
+
+resource "aws_route" "private_nat" {
+  route_table_id         = aws_route_table.private.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.ng.id
+}
+
+resource "aws_route_table_association" "private" {
+  count          = length(aws_subnet.private)
+  subnet_id      = aws_subnet.private[count.index].id
+  route_table_id = aws_route_table.private.id
+}
