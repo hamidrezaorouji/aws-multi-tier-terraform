@@ -7,5 +7,12 @@ This project sets up a multi-tier AWS infrastructure using Terraform, following 
 - envs/
 - bin/
 
+## Network structure
+This terraform project has a VPC with:
+- Public subnets with internet access
+- private subnets with NAT-gateway
+
 ## Usage
-Run `bin/deploy.sh` to initialize and apply Terraform code.
+```bash
+terraform init
+terraform apply
