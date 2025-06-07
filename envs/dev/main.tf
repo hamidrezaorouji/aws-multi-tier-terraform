@@ -16,3 +16,15 @@ module "security_groups" {
 module "iam" {
   source = "../../modules/iam"
 }
+
+module "launch_template" {
+  source = "../../modules/launch_template"
+
+  name_prefix           = "dev"
+  ami_id                = "aws_ami.ubuntu.id"
+  instance_type         = "t2.micro"
+  security_groups_ids   = [module.security_groups.ec2_sg_id]
+  instance_profile_name = module.iam.instance_profile_name
+  hostname              = "web-instance"
+  project_name          = "myapp"
+}

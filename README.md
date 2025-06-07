@@ -22,6 +22,9 @@ this module creates:
 - an IAM-role
 - an instance profile, that launch template would use
 
+## Launch template
+creates a launch template with `user_data`
+
 ## Usage
 ```bash
 terraform init
