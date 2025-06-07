@@ -12,3 +12,7 @@ module "security_groups" {
   name   = "dev"
   vpc_id = module.network.vpc_id
 }
+
+module "iam" {
+  source = "../../modules/iam"
+}

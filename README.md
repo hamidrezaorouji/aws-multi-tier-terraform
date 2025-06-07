@@ -17,6 +17,11 @@ thie module creates two security groups:
 - **alb_sg** 
 - **ec2_sg**
 
+## IAM
+this module creates:
+- an IAM-role
+- an instance profile, that launch template would use
+
 ## Usage
 ```bash
 terraform init
