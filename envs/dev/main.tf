@@ -28,3 +28,13 @@ module "launch_template" {
   hostname              = "web-instance"
   project_name          = "myapp"
 }
+
+module "alb" {
+  source = "../../modules/alb"
+
+  alb_name          = "my-alb"
+  target_group_name = "my-tg"
+  public_subnet_ids = module.network.public_subnet_ids
+  security_group_id = module.security_groups.alb_sg_id
+  vpc_id            = module.network.vpc_id
+}

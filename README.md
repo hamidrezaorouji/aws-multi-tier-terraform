@@ -25,6 +25,11 @@ this module creates:
 ## Launch template
 creates a launch template with `user_data`
 
+## Application loadbalancer
+this module creates:
+- application loadbalancer
+- target group
+
 ## Usage
 ```bash
 terraform init
