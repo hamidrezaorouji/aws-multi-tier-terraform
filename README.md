@@ -30,6 +30,9 @@ this module creates:
 - application loadbalancer
 - target group
 
+## Auto scaling group
+it creates EC2 instances based on launch template and assigns them to target group
+
 ## Usage
 ```bash
 terraform init

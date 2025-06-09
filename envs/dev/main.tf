@@ -38,3 +38,15 @@ module "alb" {
   security_group_id = module.security_groups.alb_sg_id
   vpc_id            = module.network.vpc_id
 }
+
+module "asg" {
+  source = "../../modules/asg"
+
+  name = "web-asg"
+  min_size = 1
+  max_size = 3
+  desired_capacity = 2
+  subnet_ids = module.network.private_subnet_ids
+  target_group_arn = module.alb.target_group_arn
+  launch_template_id = module.launch_template.id
+}
