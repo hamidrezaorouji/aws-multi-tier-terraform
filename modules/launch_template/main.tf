@@ -23,8 +23,9 @@ resource "aws_launch_template" "launchtemp" {
   vpc_security_group_ids = var.security_group_ids
 
   user_data = base64encode(templatefile("${path.module}/user_data.sh.tpl", {
-    hostname     = var.hostname
-    project_name = var.project_name
+    hostname          = var.hostname
+    project_name      = var.project_name
+    cloudwatch_config = var.cloudwatch_config
   }))
 
   iam_instance_profile {

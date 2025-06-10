@@ -20,6 +20,22 @@ cat <<EOF > /var/www/html/index.html
 </html>
 EOF
 
+# CloudWatch Agent installieren
+wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
+dpkg -i amazon-cloudwatch-agent.deb
+
+# Konfigurationsdatei fuer Logs
+cat <<EOF > /opt/aws/amazon-cloudwatch-agent/bin/config.json
+${cloudwatch_config}
+EOF
+
+# CloudWatch Agent starten
+/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+  -a fetch-config \
+  -m ec2 \
+  -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json \
+  -s
+
 systemctl enable nginx
 systemctl restart nginx
 

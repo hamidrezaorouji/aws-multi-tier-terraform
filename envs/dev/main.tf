@@ -21,12 +21,13 @@ module "launch_template" {
   source = "../../modules/launch_template"
 
   name_prefix           = "dev"
-  ami_id                = "aws_ami.ubuntu.id"
+  ami_id                = data.aws_ami.ubuntu.id
   instance_type         = "t2.micro"
   security_groups_ids   = [module.security_groups.ec2_sg_id]
   instance_profile_name = module.iam.instance_profile_name
   hostname              = "web-instance"
   project_name          = "myapp"
+  cloudwatch_confing    = data.template_file.cloudwatch_config.rendered
 }
 
 module "alb" {

@@ -33,6 +33,10 @@ this module creates:
 ## Auto scaling group
 it creates EC2 instances based on launch template and assigns them to target group
 
+## Monitoring
+it includes:
+- cloudwatch configuration file
+
 ## Usage
 ```bash
 terraform init
