@@ -1,0 +1,11 @@
+variable "alarm_name"          { type = string }
+variable "metric_name"         { type = string }
+variable "namespace"           { type = string }
+variable "statistic"           { type = string }
+variable "period"              { type = number }
+variable "evaluation_periods"  { type = number }
+variable "threshold"           { type = number }
+variable "comparison_operator" { type = string }
+variable "description"         { type = string }
+variable "sns_topic_arn"       { type = string }
+variable "dimensions"          { type = map(string) }

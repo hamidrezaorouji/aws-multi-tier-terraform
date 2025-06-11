@@ -43,11 +43,32 @@ module "alb" {
 module "asg" {
   source = "../../modules/asg"
 
-  name = "web-asg"
-  min_size = 1
-  max_size = 3
-  desired_capacity = 2
-  subnet_ids = module.network.private_subnet_ids
-  target_group_arn = module.alb.target_group_arn
+  name               = "web-asg"
+  min_size           = 1
+  max_size           = 3
+  desired_capacity   = 2
+  subnet_ids         = module.network.private_subnet_ids
+  target_group_arn   = module.alb.target_group_arn
   launch_template_id = module.launch_template.id
+}
+
+module "sns" {
+  source     = "../../modules/sns_topic"
+  topic_name = "alarm_topic"
+  email      = ""
+}
+
+module "cpu_alarm" {
+  source = "../../modules/monitoring"
+  alarm_name          = "HighCPUAlarm"
+  metric_name         = "cpu_usage_user"
+  namespace           = "CWAgent"
+  statistic           = "Average"
+  period              = 60
+  evaluation_periods  = 3
+  threshold           = 80
+  comparison_operator = "GreaterThanThreshold"
+  description         = "CPU usage > 80% for 3 minutes"
+  sns_topic_arn       = module.sns.sns_topic_arn
+  dimensions          = { InstanceId = "" }
 }

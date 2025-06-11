@@ -36,6 +36,10 @@ it creates EC2 instances based on launch template and assigns them to target gro
 ## Monitoring
 it includes:
 - cloudwatch configuration file
+- an alarm for cpu utilization
+
+## SNS
+it creates a SNS topic to send notification via email
 
 ## Usage
 ```bash
