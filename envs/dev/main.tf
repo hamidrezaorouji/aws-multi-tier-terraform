@@ -4,7 +4,7 @@ module "network" {
   vpc_cidr             = "10.0.0.0/16"
   public_subnet_cidrs  = ["10.0.1.0/24", "10.0.2.0/24"]
   private_subnet_cidrs = ["10.0.101.0/24", "10.0.102.0/24"]
-  azs                  = []
+  azs                  = ["us-east-1a", "us-east-1b"]
 }
 
 module "security_groups" {
@@ -23,11 +23,11 @@ module "launch_template" {
   name_prefix           = "dev"
   ami_id                = data.aws_ami.ubuntu.id
   instance_type         = "t2.micro"
-  security_groups_ids   = [module.security_groups.ec2_sg_id]
+  security_group_ids   = [module.security_groups.ec2_sg_id]
   instance_profile_name = module.iam.instance_profile_name
   hostname              = "web-instance"
   project_name          = "myapp"
-  cloudwatch_confing    = data.template_file.cloudwatch_config.rendered
+  cloudwatch_config    = data.template_file.cloudwatch_config.rendered
 }
 
 module "alb" {
@@ -49,17 +49,18 @@ module "asg" {
   desired_capacity   = 2
   subnet_ids         = module.network.private_subnet_ids
   target_group_arn   = module.alb.target_group_arn
-  launch_template_id = module.launch_template.id
+  launch_template_id = module.launch_template.launch_template_id
 }
 
 module "sns" {
   source     = "../../modules/sns_topic"
   topic_name = "alarm_topic"
-  email      = ""
+  email      = "test@test.com"
 }
 
+
 module "cpu_alarm" {
-  source = "../../modules/monitoring"
+  source              = "../../modules/monitoring"
   alarm_name          = "HighCPUAlarm"
   metric_name         = "cpu_usage_user"
   namespace           = "CWAgent"
@@ -70,5 +71,5 @@ module "cpu_alarm" {
   comparison_operator = "GreaterThanThreshold"
   description         = "CPU usage > 80% for 3 minutes"
   sns_topic_arn       = module.sns.sns_topic_arn
-  dimensions          = { InstanceId = "" }
+  dimensions          = { InstanceId = "dummy-instance-id" }
 }

@@ -26,3 +26,7 @@ variable "project_name" {
   type = string
 }
 
+variable "cloudwatch_config" {
+  description = "CloudWatch config rendered template"
+  type        = string
+}

@@ -3,3 +3,5 @@
 *.tfstate.backup
 terraform.tfvars
 *.log
+.terraform.lock.hcl
+modules/launch_template/id_rsa

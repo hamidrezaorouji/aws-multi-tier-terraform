@@ -1,5 +1,5 @@
-output "lauch_template_id" {
-  value = aws_lauch_template.launchtemp.id
+output "launch_template_id" {
+  value = aws_launch_template.launchtemp.id
 }
 
 output "private_key_path" {

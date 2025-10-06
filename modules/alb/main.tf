@@ -1,4 +1,4 @@
-resource "aws_alb" "alb" {
+resource "aws_lb" "alb" {
   name               = var.alb_name
   load_balancer_type = "application"
   subnets            = var.public_subnet_ids
@@ -7,7 +7,7 @@ resource "aws_alb" "alb" {
   enable_deletion_protection = false
   idle_timeout               = 60
 
-  tag = {
+  tags = {
     Name = "${var.alb_name}-alb"
   }
 }
@@ -34,7 +34,7 @@ resource "aws_lb_target_group" "tgroup" {
 }
 
 resource "aws_lb_listener" "listener" {
-  load_balancer_arn = aws_alb.alb.arn
+  load_balancer_arn = aws_lb.alb.arn
   port              = 80
   protocol          = "HTTP"
 

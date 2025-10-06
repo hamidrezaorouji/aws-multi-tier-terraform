@@ -18,7 +18,7 @@ resource "aws_security_group" "alb_sg" {
   }
   
   tags = {
-    Name = "${var.namr}-alb-sg"
+    Name = "${var.name}-alb-sg"
   }
 }
 

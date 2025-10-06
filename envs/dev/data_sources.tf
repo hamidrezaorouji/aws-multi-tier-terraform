@@ -15,5 +15,5 @@ data "aws_ami" "ubuntu" {
 }
 
 data "template_file" "cloudwatch_config" {
-  template = file("${path.root}/modules/monitoring/cloudwatch_config.json.tpl")
+  template = file("${path.root}/../../modules/monitoring/cloudwatch_config.json.tpl")
 }

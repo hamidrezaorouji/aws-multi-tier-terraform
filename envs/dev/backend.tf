@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket         = ""  # von Skript erzeugt
+    bucket         = "my-terraform-state-bucket-1759778076" # von Skript erzeugt
     key            = "dev/terraform.tfstate"
-    region         = ""
+    region         = "us-east-1"
     dynamodb_table = "terraform-locks"
     encrypt        = true
   }
